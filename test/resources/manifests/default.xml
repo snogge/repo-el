@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <remote  name="foobar"
+           fetch="." />
+
+  <default revision="refs/heads/master"
+           remote="foobar"
+           sync-j="4" />
+
+  <project name="project1" />
+  <project name="project2" />
+
+</manifest>

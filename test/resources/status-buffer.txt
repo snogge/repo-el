@@ -1,0 +1,8 @@
+Workspace:             ~/foo/bar
+Manifest branch:       refs/heads/master
+Manifest merge branch: refs/heads/master
+Manifest groups:       all,-notdefault
+
+project foo1/                                   branch dev
+project foo2/                                   branch dev
+project foo3/                                   branch dev

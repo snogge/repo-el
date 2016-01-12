@@ -1,0 +1,11 @@
+Running repo info -lo
+Manifest branch: refs/heads/master
+Manifest merge branch: refs/heads/merge
+Manifest groups: all,-notdefault
+----------------------------
+Repo process finished
+
+Running repo status
+project project-foo/                            branch dev
+project project-bar/                            branch dev
+Repo process finished
