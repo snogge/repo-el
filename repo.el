@@ -144,6 +144,8 @@ Run SENTINEL after the process exits."
 
 PROC is the repo status process, EVENT is the sentinel event."
   (with-current-buffer (process-buffer proc)
+    ;; Make sure we are at the end of the buffer
+    (goto-char (point-max))
     (insert (format "Repo process %s\n" event))
     (unless (string-match event "finished\n")
       (error "Repo process failed, see %s for errors." (buffer-name)))))
