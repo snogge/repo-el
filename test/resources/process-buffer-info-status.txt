@@ -8,4 +8,5 @@ Repo process finished
 Running repo status
 project project-foo/                            branch dev
 project project-bar/                            branch dev
+ R-	foo.bar => foo.baz (100%)
 Repo process finished
