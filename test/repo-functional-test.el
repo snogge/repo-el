@@ -1,4 +1,4 @@
-;;; repo-test.el --- Repo mode functional test suite  -*- lexical-binding: t; -*-
+;;; repo-functional-test.el --- Repo mode functional test suite  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Damien Merenne
 
@@ -105,11 +105,11 @@
     (kill-buffer proc-buffer)))
 
 
-(provide 'functional-test)
+(provide 'repo-functional-test)
 
 ;; Local Variables:
 ;; coding: utf-8
 ;; indent-tabs-mode: nil
 ;; End:
 
-;;; functional-test.el ends here
+;;; repo-functional-test.el ends here
