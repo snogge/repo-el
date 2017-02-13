@@ -202,7 +202,7 @@
     (with-mock
      (mock (repo-default-sentinel 'proc "finished\n"))
      (mock (process-buffer 'proc) => (current-buffer))
-     (repo-status-parse-buffer 'proc "finished\n")
+     (repo-status-parse-buffer 'proc "finished\n"))
      (with-current-buffer (repo-status-buffer repo-test/fake-workspace-path)
        (goto-char (point-min))
        (should (looking-at (format "Workspace: +%s" repo-test/fake-workspace-path)))
@@ -217,7 +217,7 @@
        (should (looking-at "project project-foo/ +branch dev"))
        (forward-line)
        (should (looking-at "project project-bar/ +branch dev"))
-       (kill-buffer)))))
+       (kill-buffer))))
 
 
 (provide 'repo-test)
