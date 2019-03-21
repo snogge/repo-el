@@ -272,8 +272,7 @@ With a prefix argument, sets KILL-BUFFER and  kill the buffer instead."
      ("^project \\([^ ]+\\)/\\W+\\(\\(*** NO BRANCH ***\\)\\|\\(branch \\(\\w+\\)\\)\\)$" . ((1 font-lock-type-face) (5 font-lock-function-name-face)))
      ("^Workspace: +\\(.*\\)$" . (1 font-lock-function-name-face))
      ("^Manifest.* branch: +\\(.*\\)$" . (1 font-lock-keyword-face))
-     ("-m" . font-lock-warning-face)
-     ("--" . font-lock-warning-face)
+	 ("^ \\([-AMDRCTU][-md]\\)" . (1 font-lock-warning-face))
      ))
   "Keywords for repo status buffer syntax highlighting.")
 
