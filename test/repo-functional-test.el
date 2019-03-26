@@ -88,7 +88,8 @@
 (ert-deftest repo-status/repo-error ()
   (let ((proc-buffer (repo-process-buffer-name repo-test/fake-workspace-path))
         (status-buffer (repo-status-buffer-name repo-test/fake-workspace-path)))
-    (kill-buffer status-buffer)
+    (when (get-buffer status-buffer)
+      (kill-buffer status-buffer))
     (repo-status repo-test/fake-workspace-path)
     (should-error (ert-wait-for 10
                       (lambda ()

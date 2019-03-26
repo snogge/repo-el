@@ -201,9 +201,9 @@
     (setq-local default-directory repo-test/fake-workspace-path)
     (with-mock
      (mock (repo-default-sentinel 'proc "finished\n"))
-     (mock (process-buffer 'proc) => (current-buffer))
+     (mock (process-buffer *) => (current-buffer))
      (repo-status-parse-buffer 'proc "finished\n"))
-     (with-current-buffer (repo-status-buffer repo-test/fake-workspace-path)
+    (with-current-buffer (repo-status-buffer repo-test/fake-workspace-path)
        (goto-char (point-min))
        (should (looking-at (format "Workspace: +%s" repo-test/fake-workspace-path)))
        (forward-line)
