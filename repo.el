@@ -198,10 +198,10 @@ PROC is the repo info process, EVENT is the sentinel event."
     (let ((workspace default-directory))
       (repo-exec default-directory (function repo-status-parse-buffer) "status" "-j" "1"))))
 
-(defun repo-status-insert (buffer &rest args)
-  "Insert into BUFFER the value of `format' called with ARGS."
+(defun repo-status-insert (buffer msg &rest args)
+  "Insert into BUFFER the value of `format' called with MSG and ARGS."
   (with-current-buffer buffer
-    (insert (apply (function format) args))))
+    (insert (apply (function format) msg args))))
 
 (defun repo-status-parse-buffer (proc event)
   "Cleanup after running repo status and parse process buffer.
