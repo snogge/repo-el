@@ -72,16 +72,17 @@
   (with-workspace
    (repo-status workspace)
    (wait-for-status 3 workspace)
-   (let ((newfile   (f-join workspace "project1" "newfile")))
+   (let ((newfile (f-join workspace "project1" "newfile")))
      (with-temp-file newfile
        (insert "foobar"))
      (with-status-buffer workspace
        (revert-buffer)
-       (wait-for-regexp 10 (current-buffer) "--"
-         (goto-char (point-min))
-         (should (re-search-forward "project project1/" nil t))
-         (forward-line)
-         (should (looking-at "^ --\\W+newfile$")))
+       (let ((inhibit-read-only t))
+         (wait-for-regexp 10 (current-buffer) "--"
+           (goto-char (point-min))
+           (should (re-search-forward "project project1/" nil t))
+           (forward-line)
+           (should (looking-at "^ --\\W+newfile$"))))
        (kill-buffer))
      (delete-file newfile))))
 

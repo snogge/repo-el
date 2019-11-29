@@ -157,7 +157,7 @@
 (put 'with-status-buffer 'lisp-indent-function 1)
 
 (defmacro ert-wait-for (timeout predicate &rest body)
-  "Wait for maximum TIMEOUT second for PREDICATE to verify, than execute forms in BODY."
+  "Wait for maximum TIMEOUT second for PREDICATE to verify, then execute forms in BODY."
   `(with-timeout
        (,timeout (ert-fail (format "Timeout of %ds exceeded while waiting for predicate." ,timeout)))
      (while (not (funcall ,predicate))

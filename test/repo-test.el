@@ -192,7 +192,6 @@
    (mock (repo-mode))
    (with-temp-buffer
      (repo-status-setup-buffer (current-buffer) repo-test/fake-workspace-path)
-     (should (string= (buffer-name) "*repo: fake-workspace"))
      (should (string= (buffer-local-value 'default-directory (current-buffer))
                       repo-test/fake-workspace-path)))))
 
