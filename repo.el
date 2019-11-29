@@ -189,7 +189,7 @@ With a prefix argument prompt for a directory to be used as workspace."
   (unless (repo-workspace-p workspace)
     (unless (repo-call-init-default-directory workspace)
       (user-error "Repo needs an initialized workspace")))
-  (let ((status-buffer (get-buffer (repo-status-buffer-name workspace))))
+  (let ((status-buffer (repo-status-buffer workspace)))
     (when status-buffer
       (switch-to-buffer status-buffer)))
   (repo-status-exec-info workspace))
