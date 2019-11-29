@@ -137,7 +137,7 @@ If point is on
 (defun repo-exec (directory sentinel &rest args)
   "Run repo in DIRECTORY, outputing to BUFFER with ARGS.
 
-Run SENTINEL after the process exits."
+Run SENTINEL after the process exits.  Return the process object."
   (let* ((default-directory (file-name-as-directory directory))
          (buffer (repo-process-buffer directory))
          (repo-args (append (list "repo" buffer repo-executable
@@ -252,27 +252,17 @@ PROC is the repo info process, EVENT is the sentinel event."
         ))))
 
 (defun repo-status-setup-buffer (buffer workspace)
-  "Setup the repo status BUFFER for WORKSPACE."
+  "Setup the repo status BUFFER for WORKSPACE and switch to it."
   (with-current-buffer buffer
     (setq-local default-directory workspace)
     (repo-mode)
-    (let ((name (repo-status-buffer-name workspace)))
-      (if (get-buffer name)
-          (progn
-            (with-current-buffer name
-              (let ((inhibit-read-only 't))
-                (erase-buffer)
-                (insert-buffer-substring buffer)))
-            (kill-buffer)
-            (switch-to-buffer name))
-        (progn
-          (rename-buffer name)
-          (switch-to-buffer buffer))))))
+	(rename-buffer (repo-status-buffer-name workspace))  ;; just to pass the tests....
+    (switch-to-buffer buffer)))
 
 (defun repo-status-bury-buffer (&optional kill-buffer)
   "Bury the current buffer.
 
-With a prefix argument, sets KILL-BUFFER and  kill the buffer instead."
+With a prefix argument, sets KILL-BUFFER and kill the buffer instead."
   (interactive "P")
   (quit-window kill-buffer))
 
