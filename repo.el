@@ -62,13 +62,25 @@ If not set, repo uses `magit-status' if available, `vc-dir' otherwise."
   "Return the repo status buffer name for DIRECTORY."
   (format "*repo: %s" (file-name-nondirectory (directory-file-name directory))))
 
+(defun repo-buffer-list ()
+  "Return a list of all `repo-mode' buffers."
+  (seq-filter (lambda (buf)
+                (with-current-buffer buf
+                  (derived-mode-p 'repo-mode)))
+              (buffer-list)))
+
 (defun repo-status-buffer (directory)
   "Return the repo status buffer for DIRECTORY."
-  (get-buffer-create (repo-status-buffer-name directory)))
+  (let ((buffer (find (directory-file-name directory) (repo-buffer-list)
+					  :key (apply-partially 'buffer-local-value 'repo-workspace))))
+	(if buffer
+		buffer
+	  ;; A new buffer must be created
+	  (generate-new-buffer (repo-status-buffer-name directory)))))
 
 (defun repo-process-buffer-name (directory)
   "Return the repo process buffer name for DIRECTORY."
-  (format "*repo-process: %s" (file-name-nondirectory (directory-file-name directory))))
+  (format "*repo-process: %s" (directory-file-name directory)))
 
 (defun repo-process-buffer (directory)
   "Return the repo status buffer for DIRECTORY."
