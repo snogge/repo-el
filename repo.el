@@ -111,17 +111,27 @@ IGNORE-AUTO and NO-CONFIRM has no effect here."
   (funcall (repo-internal-vc-function) dirname))
 
 (defun repo-find ()
-  "Run `repo-vc-function' for current project."
+  "Find item at point.
+If point is on
+... a file line, find that file.
+... a project line, run `repo-vc-function' for that project.
+... the manifest line, run `repo-vc-function' for the manifests directory.
+... the workspace line, dun `dired' on that directory"
   (interactive)
   (save-excursion
-    (goto-char (line-end-position))
-    (cond ((re-search-backward "project +\\([^ ]+\\)" nil t)
+    (goto-char (line-beginning-position))
+    (cond ((looking-at "^ [-AMDRCTU][-md]\t\\(.*\\)")
+		   (let ((file (match-string 1))
+				 (project (progn (re-search-backward "project +\\([^ ]+\\)" nil t)
+								 (match-string 1))))
+			 (find-file (concat repo-workspace project file))))
+		  ((looking-at "project +\\([^ ]+\\)")
            (let ((project (match-string 1)))
              (repo-call-vc-function (concat repo-workspace project))))
-          ((re-search-backward "Manifest groups:" nil t) nil)
-          ((re-search-backward "Manifest \\(merge \\)?branch: +\\(.*\\)$" nil t)
+          ((looking-at-p "Manifest groups:") nil)
+          ((looking-at "Manifest \\(merge \\)?branch: +\\(.*\\)$")
            (repo-call-vc-function (concat repo-workspace ".repo/manifests/")))
-          ((re-search-backward "Workspace: +\\([^ ]+\\)$" nil t)
+          ((looking-at "Workspace: +\\([^ ]+\\)$")
            (dired (match-string 1))))))
 
 (defun repo-exec (directory sentinel &rest args)

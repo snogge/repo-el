@@ -4,5 +4,29 @@ Manifest merge branch: refs/heads/master
 Manifest groups:       all,-notdefault
 
 project foo1/                                   branch dev
+ --	nodiff_1
+ A-	added_1
+ M-	modified_1
+ D-	deleted_1
+ R-	renamed_1
+ C-	copied_1
+ T-	mode/changed_1
+ U-	unmerged_1
 project foo2/                                   branch dev
+ -m	nodiff_2
+ Am	added_2
+ Mm	modified_2
+ Dm	deleted_2
+ Rm	renamed_2
+ Cm	copied_2
+ Tm	mode/changed_2
+ Um	unmerged_2
 project foo3/                                   branch dev
+ -d	nodiff_3
+ Ad	added_3
+ Md	modified_3
+ Dd	deleted_3
+ Rd	renamed_3
+ Cd	copied_3
+ Td	mode/changed_3
+ Ud	unmerged_3

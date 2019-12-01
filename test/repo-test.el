@@ -129,10 +129,20 @@
     (with-mock
      (mock (repo-call-vc-function "~/foo/bar/foo2/") :times 2)
      (setq repo-workspace "~/foo/bar/")
-     (forward-line 6)
+     (forward-line 14)
      (repo-find)
      (end-of-line)
      (repo-find))))
+
+(ert-deftest repo-find/file ()
+  (with-resource "status-buffer.txt"
+    (setq repo-workspace "~/foo/bar/")
+    (forward-line 6)
+    (with-mock
+      (mock (find-file "~/foo/bar/foo1/nodiff_1") :times 2)
+      (repo-find)
+      (end-of-line)
+      (repo-find))))
 
 (ert-deftest repo-exec/failure ()
   (let ((repo-executable "I/Do/Not/Exist"))
