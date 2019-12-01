@@ -140,6 +140,7 @@
 
 (defmacro with-resource (resource &rest body)
   "Load RESOURCE file in a temporary buffer and execute the forms in BODY in it."
+  (declare (debug t))
   `(with-temp-buffer
      (insert-file-contents (f-expand ,resource repo-test/resources-path))
      (goto-char (point-min))
