@@ -31,6 +31,9 @@
 (require 'f)
 (require 'url)
 
+(when (> emacs-major-version 26)
+  (defalias 'ert--print-backtrace 'backtrace-to-string))
+
 (defvar repo-test/test-path
   (f-dirname (f-this-file)))
 
