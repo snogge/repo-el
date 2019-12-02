@@ -35,3 +35,11 @@ are welcome.
 
 This emacs extension is distributed under the terms of the GPLv3. See
 COPYING file for details.
+
+## Contributors
+
+Thanks to
+
+- Syohei Yoshida for bugfixes.
+- Jonas Bernoulli for bugfixes.
+- Ola Nilsson for bugfixes and for refining the return key behavior,
