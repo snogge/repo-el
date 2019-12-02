@@ -13,12 +13,11 @@ Make sur the repo tool is in your path. Call `M-x repo-status`, it
 will prompt for a repo workspace and display the workspace status in a
 new buffer.
 
-In the status buffer, hitting `g` will update the buffer. Hitting
-`RET` on the "Workspace:" line will open dired in the workspace
-directory. Hitting `RET` on the "Branch ...:" line will run
-`magit-status` in the ".repo/manifests" directory. Finally, hitting
-`RET` on a project line or on a line belonging to one project will run
-`magit-status` for that project.
+In the status buffer, hitting `g` will update the buffer. Hitting `RET` on the
+"Workspace:" line will open dired in the workspace directory. Hitting `RET` on
+the "Branch ...:" line will run `magit-status` in the ".repo/manifests"
+directory. On a project line, `RET` will run `magit-status` for that
+project. Finally, `RET` on a file will open the file at point.
 
 ## Todo
 
