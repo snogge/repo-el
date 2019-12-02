@@ -40,6 +40,6 @@ COPYING file for details.
 
 Thanks to
 
-- Syohei Yoshida for bugfixes.
-- Jonas Bernoulli for bugfixes.
-- Ola Nilsson for bugfixes and for refining the return key behavior,
+- Syohei Yoshida for bugfixes,
+- Jonas Bernoulli for bugfixes,
+- Ola Nilsson for bugfixes and for refining the return key behavior.
