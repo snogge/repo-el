@@ -39,10 +39,10 @@
   (should (string= (repo-status-buffer-name "/test/foo-bar/") "*repo: foo-bar")))
 
 (ert-deftest repo-process-buffer-name/file-name ()
-  (should (string= (repo-process-buffer-name "/test/foo-bar") "*repo-process: foo-bar")))
+  (should (string= (repo-process-buffer-name "/test/foo-bar") "*repo-process: /test/foo-bar")))
 
 (ert-deftest repo-process-buffer-name/directory-name ()
-  (should (string= (repo-process-buffer-name "/test/foo-bar/") "*repo-process: foo-bar")))
+  (should (string= (repo-process-buffer-name "/test/foo-bar/") "*repo-process: /test/foo-bar")))
 
 (ert-deftest repo-toplevel/nil-when-not-found ()
   (should (not (repo-toplevel "/I/Do/Not/Exist"))))
