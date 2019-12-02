@@ -220,8 +220,7 @@ PROC is the repo info process, EVENT is the sentinel event."
   (repo-default-sentinel proc event)
   (with-current-buffer (process-buffer proc)
     (let* ((workspace default-directory)
-           (status-name (repo-status-buffer-name workspace))
-           (status (get-buffer-create (format "%s-temp*" status-name)))
+		   (status (repo-status-buffer workspace))
            (parse-error (lambda ()
                           (kill-buffer status)
                           (error "Unable to parse repo output from %s"
