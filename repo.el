@@ -64,7 +64,9 @@ If not set, repo uses `magit-status' if available, `vc-dir' otherwise."
 
 (defun repo-status-buffer (directory)
   "Return the repo status buffer for DIRECTORY."
-  (get-buffer-create (repo-status-buffer-name directory)))
+  (let ((default-directory directory))
+	(get-buffer-create (repo-status-buffer-name directory))
+	(repo-mode)))
 
 (defun repo-process-buffer-name (directory)
   "Return the repo process buffer name for DIRECTORY."
