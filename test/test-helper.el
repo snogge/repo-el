@@ -31,8 +31,13 @@
 (require 'f)
 (require 'url)
 
-(when (> emacs-major-version 26)
-  (defalias 'ert--print-backtrace 'backtrace-to-string))
+(require 'ert)
+(require 'backtrace)
+(unless (fboundp #'ert--print-backtrace)
+  (defun ert--print-backtrace (backtrace do-xrefs)
+    "Format the backtrace BACKTRACE to the current buffer."
+    (insert (backtrace-to-string
+             (ert-test-result-with-condition-backtrace result)))))
 
 (defvar repo-test/test-path
   (f-dirname (f-this-file)))
