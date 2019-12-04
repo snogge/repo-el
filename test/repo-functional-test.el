@@ -76,6 +76,10 @@
      (with-temp-file newfile
        (insert "foobar"))
      (with-status-buffer workspace
+       (should (string= (buffer-name) "*repo: workspace"))
+       (should (eq major-mode 'repo-mode))
+       (should (derived-mode-p 'repo-mode))
+       (should (eq revert-buffer-function #'repo-revert-buffer))
        (revert-buffer)
        (let ((inhibit-read-only t))
          (wait-for-regexp 10 (current-buffer) "--"
