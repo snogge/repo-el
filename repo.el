@@ -99,12 +99,12 @@ IGNORE-AUTO and NO-CONFIRM has no effect here."
     (repo-status repo-workspace)))
 
 (defun repo-internal-vc-function ()
-  "Return the function to call for opening git status buffer."
-  (if repo-vc-function
-      repo-vc-function
-    (if (fboundp 'magit-status-internal)
-        (function magit-status-internal)
-      (function vc-dir))))
+    "Return the function to call for opening git status buffer."
+    (if repo-vc-function
+        repo-vc-function
+      (if (fboundp 'magit-status-setup-buffer)
+          (function magit-status-setup-buffer)
+        (function vc-dir))))
 
 (defun repo-call-vc-function (dirname)
     "Call `repo-vc-function' with DIRNAME as argument."
