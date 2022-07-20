@@ -58,6 +58,26 @@ If not set, repo uses `magit-status' if available, `vc-dir' otherwise."
 
 (defvar repo-project-regexp "^\\(?1:project\\) \\(?2:[^ ]+\\)/\\W+")
 
+;;; Our faces
+
+(defvar repo-font-lock-untracked-change-face 'repo-font-lock-untracked-change-face
+  "Font to use for untracked changes.")
+(defface repo-font-lock-untracked-change-face
+  '((t (:foreground "gray50")))
+  "Font to use for untracked changes.")
+
+(defvar repo-font-lock-unstaged-change-face 'repo-font-lock-unstaged-change-face
+  "Font to use for unstaged changes.")
+(defface repo-font-lock-unstaged-change-face
+  '((t (:foreground "LightCoral")))
+  "Font to use for unstaged changes.")
+
+(defvar repo-font-lock-staged-change-face 'repo-font-lock-staged-change-face
+  "Font to use for staged changes.")
+(defface repo-font-lock-staged-change-face
+  '((t (:foreground "SeaGreen2")))
+  "Font to use for staged changes.")
+
 ;;; Our functions
 
 (defun repo-status-buffer-name (directory)
@@ -299,12 +319,25 @@ With a prefix argument, sets KILL-BUFFER and  kill the buffer instead."
   (quit-window kill-buffer))
 
 (defvar repo-font-lock-defaults
-  `((
-     ("^project \\([^ ]+\\)/\\W+\\(\\(*** NO BRANCH ***\\)\\|\\(branch \\(\\w+\\)\\)\\)$" . ((1 font-lock-type-face) (5 font-lock-function-name-face)))
+  `((("^\\(?1:project\\) \\(?2:[^ ]+\\)/\\W+\\(?3:branch \\(?4:.*\\)\\)$" . ((1 font-lock-function-name-face)
+                                                            (2 font-lock-variable-name-face)
+                                                            (4 font-lock-variable-name-face)))
+     ("^\\(?1:project\\) \\(?2:[^ ]+\\)/\\W+\\(?3:(\\*\\*\\* NO BRANCH \\*\\*\\*)\\)" . ((1 font-lock-function-name-face)
+                                                                      (2 font-lock-variable-name-face)
+                                                                      (3 font-lock-comment-face)))
      ("^Workspace: +\\(.*\\)$" . (1 font-lock-function-name-face))
      ("^Manifest.* branch: +\\(.*\\)$" . (1 font-lock-keyword-face))
-     ("^ \\([-AMDRCTU][-md]\\)" . (1 font-lock-warning-face))
-     ))
+     ;; Untracked changes
+     ("^ \\(?1:--\\)" . (1 repo-font-lock-untracked-change-face))
+     ;; Only unstaged changes
+     ("^ \\(?1:-\\)\\(?2:[amdrctu]\\)" . ((1 repo-font-lock-untracked-change-face)
+                                  (2 repo-font-lock-unstaged-change-face)))
+     ;; Only staged changes
+     ("^ \\(?1:[AMDRCTU]\\)\\(?2:-\\)" . ((1 repo-font-lock-staged-change-face)
+                                  (2 repo-font-lock-untracked-change-face)))
+     ;; Staged and unstaged changes in the same file
+     ("^ \\(?1:[AMDRCTU]\\)\\(?2:[amdrctu]\\)" . ((1 repo-font-lock-staged-change-face)
+                                          (2 repo-font-lock-unstaged-change-face)))))
   "Keywords for repo status buffer syntax highlighting.")
 
 (defvar repo-mode-map nil "Keymap for repo-mode.")
