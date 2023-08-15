@@ -167,7 +167,7 @@ Run SENTINEL after the process exits."
          proc)
     (with-current-buffer buffer
       (insert (format "Running repo %s\n" (mapconcat 'identity args " "))))
-    (setq proc (apply 'start-process repo-args))
+    (setq proc (apply 'start-file-process repo-args))
     (set-process-sentinel proc sentinel)
     proc))
 
