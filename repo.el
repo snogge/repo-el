@@ -272,8 +272,7 @@ PROC is the repo info process, EVENT is the sentinel event."
         (repo-status-insert status "% -23s%s\n" "Workspace:" workspace)
         (unless (re-search-backward "Running repo info -lo" nil t)
           (funcall parse-error))
-        (forward-line)
-        (unless (looking-at "^Manifest branch: \\(.*\\)$")
+        (unless (re-search-forward "^Manifest branch: \\(.*\\)$")
           (funcall parse-error))
         (repo-status-insert status "% -23s%s\n" "Manifest branch:" (match-string 1))
         (forward-line)
@@ -290,8 +289,8 @@ PROC is the repo info process, EVENT is the sentinel event."
         (while (not (looking-at "Repo process finished"))
           (repo-status-insert status "%s" (thing-at-point 'line))
           (forward-line))
-        (repo-status-setup-buffer status workspace)
-        ))))
+        (repo-status-setup-buffer status workspace)))))
+
 
 (defun repo-status-setup-buffer (buffer workspace)
   "Setup the repo status BUFFER for WORKSPACE."
