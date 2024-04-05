@@ -64,7 +64,7 @@
     (should (string= (repo-toplevel )
                      repo-test/fake-workspace-path))))
 
-(ert-deftest repo-toplevel/sublevel-dir ()
+(ert-deftest repo-toplevel/sublevel-dir-default ()
   (let ((default-directory (f-expand "project1" repo-test/fake-workspace-path)))
     (should (string= (repo-toplevel)
                      repo-test/fake-workspace-path))))
