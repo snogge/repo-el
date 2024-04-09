@@ -90,13 +90,25 @@
         (status-buffer (repo-status-buffer-name repo-test/fake-workspace-path)))
     (when (get-buffer status-buffer)
       (kill-buffer status-buffer))
-    (repo-status repo-test/fake-workspace-path)
-    (should-error (ert-wait-for 10
-                      (lambda ()
-                        (and (get-buffer proc-buffer)
-                             (with-current-buffer proc-buffer
-                               (goto-char (point-max))
-                               (re-search-backward "Process exited" nil t))))))
+    ;; The error we want to verify is actually signalled by (a
+    ;; function called by) the sentinel function
+    ;; `repo-status-exec-status'.  Override that function so it stores
+    ;; any signal in `sentinel-error'.
+    (let ((orig-sentinel (symbol-function 'repo-status-exec-status))
+          sentinel-error)
+      (cl-letf (((symbol-function 'repo-status-exec-status)
+                 (lambda (proc event)
+                   (condition-case err
+                       (funcall orig-sentinel proc event)
+                     (error (setq sentinel-error err))))))
+        (repo-status repo-test/fake-workspace-path)
+        (ert-wait-for 10
+            (lambda ()
+              (and (get-buffer proc-buffer)
+                   (with-current-buffer proc-buffer
+                     (goto-char (point-max))
+                     (re-search-backward "Process exited" nil t))))))
+      (should sentinel-error))
     (with-current-buffer proc-buffer
       (goto-char (point-max))
       (should (re-search-backward "Running repo info -lo" nil t))
