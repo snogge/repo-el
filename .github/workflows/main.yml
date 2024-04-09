@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        emacs:
+          - version: 25.1
+          - version: 25.2
+          - version: 25.3
+          - version: 26.1
+          - version: 26.2
+          - version: 26.3
+          - version: 27.1
+          - version: 27.2
+          - version: 28.1
+            ert-runner-args: --verbose
+          - version: 28.2
+            ert-runner-args: --verbose
+          - version: 29.1
+          - version: 29.2
+          - version: 29.3
+        experimental: [false]
+        include:
+          - experimental: true
+            emacs: { version: snapshot }
+    steps:
+    - uses: purcell/setup-emacs@master
+      with:
+        version: ${{ matrix.emacs.version }}
+    - uses: actions/checkout@v4
+    - name: Install Cask
+      uses: actions/checkout@v4
+      with:
+        repository: cask/cask
+        path: .cask-git
+    - name: Cask Install
+      run: .cask-git/bin/cask install
+    - name: Configure Git
+      run: |
+        git config --global user.email repo-el@repo-el.noreply
+        git config --global user.name repo-el
+    - name: Run tests
+      run: .cask-git/bin/cask exec ert-runner --quiet --reporter ert+duration ${{ matrix.emacs.ert-runner-args }}
