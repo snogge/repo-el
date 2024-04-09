@@ -165,11 +165,25 @@
 
 (ert-deftest repo-status/executable-error ()
   (let ((repo-executable "false")
-        (proc-buffer (repo-process-buffer-name repo-test/fake-workspace-path)))
-    (repo-status repo-test/fake-workspace-path)
-    (should (get-buffer proc-buffer))
-    (should-error (ert-wait-for 10 (lambda ()
-                                     (eql (process-status proc-buffer) 'exit))))
+        (proc-buffer (repo-process-buffer-name repo-test/fake-workspace-path))
+        ;; The error we want to verify is actually signalled by (a
+        ;; function called by) the sentinel function
+        ;; `repo-status-exec-status'.  Override that function so it
+        ;; stores any signal in `sentinel-error'.
+        (orig-sentinel (symbol-function 'repo-status-exec-status))
+        sentinel-error)
+    (cl-letf (((symbol-function 'repo-status-exec-status)
+               (lambda (proc event)
+                 (condition-case err
+                     (funcall orig-sentinel proc event)
+                   (error (setq sentinel-error err))))))
+      (repo-status repo-test/fake-workspace-path)
+      (let ((process-buffer (get-buffer proc-buffer))
+            (status-process (get-buffer-process proc-buffer)))
+        (should process-buffer)
+        (ert-wait-for 10 (lambda ()
+                           (eql (process-status status-process) 'exit)))))
+    (should sentinel-error)
     (kill-buffer proc-buffer)))
 
 (ert-deftest repo-status/call-init-on-bad-workspace ()
