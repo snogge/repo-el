@@ -1,10 +1,11 @@
 ;;; repo.el --- Running repo from Emacs
 
 ;; Author: Damien Merenne
-;; URL: https://github.com/canatella/repo-el
+;; Maintainer: Ola Nilsson
+;; URL: https://github.com/snogge/repo-el
 ;; Created: 2016-01-11
 ;; Keywords: convenience
-;; Version: 0.1
+;; Version: 0.3.0
 ;; Package-Requires: ((emacs "24.3"))
 
 ;; This file is NOT part of GNU Emacs.
@@ -36,7 +37,7 @@
 ;;; User customizable variable
 
 (defgroup repo nil
-  "Run repo commands from emacs"
+  "Run repo commands from Emacs."
   :group 'processes)
 
 (defcustom repo-executable "repo"
